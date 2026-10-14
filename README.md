@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# You Were There
 
-## Getting Started
+The link-in-bio site for the stickman history channel: shop, Patreon and commissions on one page.
 
-First, run the development server:
+Built with Next.js (App Router), TypeScript, Tailwind and shadcn/ui, with Lenis for smooth scrolling,
+GSAP for the scroll animation and split-text headline, and Vanta.js for the hero fog.
+
+## Running it on your computer
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # then fill in what you have
+npm run dev                  # open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Without any keys the site still works: the shop shows placeholder products, and in `npm run dev`
+commission requests are printed in the terminal instead of emailed.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where to change things
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | Where |
+| --- | --- |
+| Name, tagline, social links, latest episode, Patreon tiers, prices, form options | `src/config/site.ts` |
+| Links per deployment, keys | environment variables (see `.env.example`) |
+| Colours and fonts | `src/app/globals.css`, `src/app/layout.tsx` |
+| The mascot | `src/components/mascot.tsx` |
+| Page layout and copy | `src/app/page.tsx` |
 
-## Learn More
+## How each part works
 
-To learn more about Next.js, take a look at the following resources:
+- **Shop** (`src/lib/fourthwall.ts`): if `FOURTHWALL_STOREFRONT_TOKEN` is set, products come from the
+  [Fourthwall Storefront API](https://docs.fourthwall.com/storefront/overview) and are refreshed about once
+  an hour. Otherwise the three placeholder products show, all linking to `NEXT_PUBLIC_SHOP_URL`.
+- **Patreon**: a link to `NEXT_PUBLIC_PATREON_URL`.
+- **Commission form** (`src/app/actions.ts`): a server action validates the request and emails it to
+  `COMMISSION_TO_EMAIL` with [Resend](https://resend.com). Spam protection is a hidden honeypot field plus a
+  "filled in too fast" check; add Turnstile keys to also show Cloudflare's checkbox. If the visitor gives an
+  email address, hitting Reply in your inbox replies to them.
+- **Hero fog** (`src/components/hero-background.tsx`): Vanta and three.js are only downloaded once the page
+  is idle, stop drawing when the hero is offscreen, and are skipped (a static image, `public/hero-ash.svg`,
+  shows instead) for reduced motion, data saver, low-power phones and browsers without WebGL.
+- **Animation**: one scroll-linked moment on the latest-episode card (`src/components/episode-card.tsx`)
+  and the headline letters on load (`src/components/split-text.tsx`, adapted from React Bits).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploying to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Import this GitHub repo at [vercel.com/new](https://vercel.com/new). The defaults are right.
+2. Add the variables from `.env.example` under Settings > Environment Variables.
+3. Deploy. After changing a variable, redeploy for it to take effect.
 
-## Deploy on Vercel
+## Checks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```
