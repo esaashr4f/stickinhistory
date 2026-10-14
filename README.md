@@ -41,6 +41,10 @@ commission requests are printed in the terminal instead of emailed.
   shows instead) for reduced motion, data saver, low-power phones and browsers without WebGL.
 - **Animation**: one scroll-linked moment on the latest-episode card (`src/components/episode-card.tsx`)
   and the headline letters on load (`src/components/split-text.tsx`, adapted from React Bits).
+- **Fancy Components** (`src/components/fancy/`, from [fancycomponents.dev](https://www.fancycomponents.dev)):
+  the inside-jokes marquee under the hero (jokes are in `site.ts`), the highlighter on the episode punchline,
+  and the hover fill on "Watch Act I". Add more with `npx shadcn add @fancy/<name>`; files marked
+  "Local change" were tweaked for reduced motion and Next.js.
 
 ## Deploying to Vercel
 

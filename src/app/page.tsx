@@ -11,6 +11,7 @@ import { SectionHeading } from "@/components/section-heading"
 import { CommissionForm } from "@/components/commission-form"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import SimpleMarquee from "@/components/fancy/blocks/simple-marquee"
 
 const column = "mx-auto w-full max-w-[640px] px-[max(16px,env(safe-area-inset-left))]"
 
@@ -18,7 +19,7 @@ export default function Home() {
   return (
     <>
       {/* The hero is always the dark volcanic panel, whatever the page theme. */}
-      <header className="dark relative isolate overflow-hidden border-b-2 border-primary bg-background text-foreground">
+      <header className="dark relative isolate overflow-hidden bg-background text-foreground">
         <HeroBackground />
         <div className="absolute top-4 right-[max(16px,env(safe-area-inset-right))] z-10">
           <ThemeToggle />
@@ -45,6 +46,22 @@ export default function Home() {
             ))}
           </nav>
         </div>
+        <SimpleMarquee
+          direction="left"
+          baseVelocity={2}
+          repeat={4}
+          useScrollVelocity
+          className="border-y-2 border-primary bg-primary py-2 font-mono text-xs tracking-[0.14em] whitespace-nowrap text-primary-foreground uppercase"
+        >
+          <p className="flex">
+            {site.jokes.map((j) => (
+              <span key={j} className="flex items-center">
+                <span className="px-4">{j}</span>
+                <span aria-hidden="true">/</span>
+              </span>
+            ))}
+          </p>
+        </SimpleMarquee>
       </header>
 
       <main className={cn(column, "flex flex-col gap-14 py-12 sm:gap-16")}>

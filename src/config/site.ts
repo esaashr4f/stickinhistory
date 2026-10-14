@@ -15,11 +15,16 @@ export const site = {
     { label: "YouTube", href: process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://www.youtube.com/" },
   ],
 
+  // The scrolling strip under the hero.
+  jokes: ["I ain't doing that shit", "Hour 1", "Hour 3", "Hour 6", "Nobody gives a shit", "Grey pumice", "Pompeii, 79 AD"],
+
   latestEpisode: {
     place: "Pompeii",
     year: "79 AD",
     act: "Act I",
-    blurb: "It's the year 79. You're a slave in Pompeii. The mountain has been grumbling for days. Nobody gives a shit.",
+    blurb: "It's the year 79. You're a slave in Pompeii. The mountain has been grumbling for days.",
+    // Gets a highlighter swipe when the card scrolls into view.
+    punchline: "Nobody gives a shit.",
     href: process.env.NEXT_PUBLIC_LATEST_EPISODE_URL ?? "https://www.instagram.com/",
   },
 
