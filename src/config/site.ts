@@ -7,7 +7,7 @@ export const site = {
   tagline: "History, as it happened to you",
   description:
     "Stickman stories from inside history’s worst days. Pompeii, 79\u00a0AD is out now. Follow along for each new part.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://stickinhistory.com",
   // Shown in the footer for general enquiries. Commission requests are sent here
   // too, unless COMMISSION_TO_EMAIL is set.
   email: "info@stickinhistory.com",
@@ -37,7 +37,7 @@ export const site = {
   },
 
   patreon: {
-    href: process.env.NEXT_PUBLIC_PATREON_URL ?? "https://www.patreon.com/",
+    href: process.env.NEXT_PUBLIC_PATREON_URL ?? "https://www.patreon.com/StickinHistory",
     tiers: [
       { price: "£3", name: "Citizen", perk: "Every new part 24 hours early." },
       { price: "£7", name: "Senator", perk: "Early access, plus a vote on the next disaster or era." },
