@@ -99,6 +99,8 @@
   }
   html {
     @apply font-sans;
+    /* Keeps focused fields and anchor targets clear of the phone nav bar. */
+    scroll-padding-bottom: 6rem;
     -webkit-text-size-adjust: 100%;
   }
   body {

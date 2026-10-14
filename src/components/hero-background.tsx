@@ -1,15 +1,15 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import type { VantaEffect } from "vanta/dist/vanta.fog.min"
+import { useEffect, useState, type ComponentType } from "react"
+import type { MeshGradientProps } from "@paper-design/shaders-react"
 
-// A slow charcoal-and-red fog behind the hero, drawn with Vanta.js.
+// A slow charcoal-and-ember mesh gradient behind the hero, drawn with Paper's
+// MeshGradient shader (plain WebGL, no three.js, so it's light on phones).
 //
-// It's the heaviest thing on the page, so it is careful:
 // - The static image (public/hero-ash.svg) always renders first and stays as the fallback.
-// - Vanta and three.js are only downloaded after the page has settled (idle time).
-// - It's skipped entirely for reduced motion, data saver, low-power devices and no WebGL.
-// - It stops rendering when the hero is scrolled offscreen or the tab is hidden.
+// - The shader is only downloaded after the page has settled (idle time).
+// - It's skipped for reduced motion, data saver, low-power devices and no WebGL.
+// - Paper pauses it by itself when the hero is offscreen or the tab is hidden.
 
 function shouldAnimate() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false
@@ -22,7 +22,7 @@ function shouldAnimate() {
   if (nav.hardwareConcurrency !== undefined && nav.hardwareConcurrency <= 4) return false
   try {
     const canvas = document.createElement("canvas")
-    if (!canvas.getContext("webgl2") && !canvas.getContext("webgl")) return false
+    if (!canvas.getContext("webgl2")) return false
   } catch {
     return false
   }
@@ -30,73 +30,21 @@ function shouldAnimate() {
 }
 
 export function HeroBackground() {
-  const ref = useRef<HTMLDivElement>(null)
+  const [Gradient, setGradient] = useState<ComponentType<MeshGradientProps> | null>(null)
 
   useEffect(() => {
-    const el = ref.current
-    if (!el || !shouldAnimate()) return
-
-    let effect: VantaEffect | null = null
+    if (!shouldAnimate()) return
     let cancelled = false
-    let onScreen = true
-
-    const pause = () => effect && cancelAnimationFrame(effect.req)
-    const resume = () => {
-      if (!effect) return
-      cancelAnimationFrame(effect.req)
-      effect.animationLoop()
-    }
-    const sync = () => (onScreen && !document.hidden ? resume() : pause())
-
-    const observer = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting
-      sync()
-    })
-    observer.observe(el)
-    document.addEventListener("visibilitychange", sync)
-
-    async function start() {
-      const [THREE, { default: FOG }] = await Promise.all([
-        import("three"),
-        import("vanta/dist/vanta.fog.min"),
-      ])
-      if (cancelled || !el) return
-      // three.js r152+ converts colours to linear space, which makes Vanta (written
-      // for older three) render much darker. Turn that off just while Vanta sets up
-      // its colours, so the fog matches the original look.
-      const colorManagement = THREE.ColorManagement.enabled
-      THREE.ColorManagement.enabled = false
-      effect = FOG({
-        el,
-        THREE,
-        mouseControls: false,
-        touchControls: false,
-        gyroControls: false,
-        minHeight: 200,
-        minWidth: 200,
-        highlightColor: 0x6b2a20,
-        midtoneColor: 0x3a1d18,
-        lowlightColor: 0x1f1c19,
-        baseColor: 0x161412,
-        blurFactor: 0.7,
-        speed: 0.6,
-        zoom: 0.8,
-      })
-      THREE.ColorManagement.enabled = colorManagement
-      el.dataset.ready = "true"
-      sync()
-    }
-
     const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200))
     const cancelIdle = window.cancelIdleCallback ?? window.clearTimeout
-    const handle = idle(() => void start())
-
+    const handle = idle(() => {
+      import("@/components/mesh-gradient").then((m) => {
+        if (!cancelled) setGradient(() => m.MeshGradient)
+      })
+    })
     return () => {
       cancelled = true
       cancelIdle(handle)
-      observer.disconnect()
-      document.removeEventListener("visibilitychange", sync)
-      effect?.destroy()
     }
   }, [])
 
@@ -104,10 +52,19 @@ export function HeroBackground() {
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative SVG, nothing for next/image to optimise */}
       <img src="/hero-ash.svg" alt="" className="absolute inset-0 size-full object-cover" />
-      <div
-        ref={ref}
-        className="absolute inset-0 opacity-0 transition-opacity duration-[1500ms] data-[ready=true]:opacity-100"
-      />
+      {Gradient && (
+        <Gradient
+          className="absolute inset-0 size-full animate-in duration-1000 fade-in"
+          colors={["#161412", "#3a1d18", "#7a2a1e", "#211c19"]}
+          distortion={0.85}
+          swirl={0.35}
+          grainOverlay={0.12}
+          speed={0.25}
+          // A soft gradient doesn't need full retina resolution; cap the work for phones.
+          minPixelRatio={1}
+          maxPixelCount={1280 * 720}
+        />
+      )}
     </div>
   )
 }

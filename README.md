@@ -3,7 +3,8 @@
 The link-in-bio site for the stickman history channel: shop, Patreon and commissions on one page.
 
 Built with Next.js (App Router), TypeScript, Tailwind and shadcn/ui, with Lenis for smooth scrolling,
-GSAP for the scroll animation and split-text headline, and Vanta.js for the hero fog.
+GSAP for the scroll animation and split-text headline, a Paper shader for the hero background, and
+liquid-glass-js for the phone navigation bar.
 
 ## Running it on your computer
 
@@ -36,26 +37,28 @@ commission requests are printed in the terminal instead of emailed.
   `site.email` (or `COMMISSION_TO_EMAIL` if set) with [Resend](https://resend.com). Spam protection is a hidden honeypot field plus a
   "filled in too fast" check; add Turnstile keys to also show Cloudflare's checkbox. If the visitor gives an
   email address, hitting Reply in your inbox replies to them.
-- **Hero fog** (`src/components/hero-background.tsx`): Vanta and three.js are only downloaded once the page
-  is idle, stop drawing when the hero is offscreen, and are skipped (a static image, `public/hero-ash.svg`,
-  shows instead) for reduced motion, data saver, low-power phones and browsers without WebGL.
+- **Hero background** (`src/components/hero-background.tsx`): Paper's `MeshGradient` shader (about 8 kB). It's
+  only downloaded once the page is idle, pauses when the hero is offscreen, and is skipped (a static image,
+  `public/hero-ash.svg`, shows instead) for reduced motion, data saver, low-power phones and no WebGL.
+  Colours, speed and grain are props on `<Gradient>` in that file.
+- **Phone nav bar** (`src/components/mobile-nav.tsx`): Shop / Patreon / Commission links that appear once the
+  hero scrolls away, on screens under 640px. Capable phones get a liquid-glass lens behind it; everyone else
+  (including reduced motion or reduced transparency) gets a plain frosted bar.
 - **Animation**: one scroll-linked moment on the latest-episode card (`src/components/episode-card.tsx`)
   and the headline letters on load (`src/components/split-text.tsx`, adapted from React Bits).
 - **Fancy Components** (`src/components/fancy/`, from [fancycomponents.dev](https://www.fancycomponents.dev)):
   the hover fill on "Watch Act I". Add more with `npx shadcn add @fancy/<name>`; files marked
   "Local change" were tweaked for reduced motion and Next.js.
 
-## Installed for later (not used on the page yet)
+## Installed for later
 
 Unused packages aren't sent to visitors, so these cost nothing until a component imports them.
 
 - `@react-three/fiber` (React Three Fiber) and `@shadergradient/react`: 3D scenes and animated gradients.
-- `@paper-design/shaders-react`: lightweight WebGL shaders, including `LiquidMetal` (the Liquid Logo effect)
-  and `MeshGradient`.
-- `liquid-glass-js`: glass refraction effect (`<liquid-glass>` element).
+- `@paper-design/shaders-react`: besides the hero's `MeshGradient`, it has `LiquidMetal` (the Liquid Logo
+  effect) and other shaders.
 - `awesome-design-md` (dev tool): `npx awesome-design-md` copies a ready-made DESIGN.md into the project.
 
-three.js was upgraded to 0.186 for React Three Fiber; `hero-background.tsx` keeps Vanta's original colours.
 
 ## Deploying to Vercel
 

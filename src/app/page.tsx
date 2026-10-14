@@ -9,6 +9,7 @@ import { EpisodeCard } from "@/components/episode-card"
 import { Shop } from "@/components/shop"
 import { SectionHeading } from "@/components/section-heading"
 import { CommissionForm } from "@/components/commission-form"
+import { MobileNav } from "@/components/mobile-nav"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -58,68 +59,73 @@ export default function Home() {
         </div>
       </header>
 
-      <main id="main" className={cn(column, "flex flex-col gap-12 py-12")}>
-        <EpisodeCard />
+      {/* page-content is what the phone nav's glass lens refracts. */}
+      <div id="page-content">
+        <main id="main" className={cn(column, "flex flex-col gap-12 py-12")}>
+          <EpisodeCard />
 
-        <Suspense fallback={null}>
-          <Shop className={section} />
-        </Suspense>
+          <Suspense fallback={null}>
+            <Shop className={section} />
+          </Suspense>
 
-        <section id="patreon" aria-labelledby="patreon-h" className={section}>
-          <SectionHeading id="patreon-h">Support on Patreon</SectionHeading>
+          <section id="patreon" aria-labelledby="patreon-h" className={section}>
+            <SectionHeading id="patreon-h">Support on Patreon</SectionHeading>
+            <p>
+              Every episode takes hours of research and dozens of drawings. Members keep the series going and get a say in
+              where it goes next.
+            </p>
+            <ul className="flex flex-col">
+              {site.patreon.tiers.map((t) => (
+                <li key={t.name} className="grid grid-cols-[5.5rem_1fr] gap-x-4 border-b border-border py-3 first:pt-0">
+                  <span className="font-semibold tabular-nums">
+                    {t.price}
+                    <span className="font-normal text-muted-foreground">/mo</span>
+                  </span>
+                  <span>
+                    <span className="font-semibold">{t.name}.</span>{" "}
+                    <span className="text-muted-foreground">{t.perk}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div>
+              <a href={site.patreon.href} target="_blank" rel="noopener" className={primaryButton}>
+                Join on Patreon <ArrowUpRightIcon aria-hidden="true" />
+              </a>
+            </div>
+          </section>
+
+          <section id="commission" aria-labelledby="commission-h" className={section}>
+            <SectionHeading id="commission-h">Commission a video</SectionHeading>
+            <p>
+              Want your own stickman story? A birthday, a company’s history, a lesson for a classroom, a moment from your
+              family’s past. Tell me about it below.
+            </p>
+            <dl aria-label="Guide prices" className="flex flex-col">
+              {site.commissions.rates.map((r) => (
+                <div key={r.label} className="flex items-baseline justify-between gap-4 border-b border-border py-2.5 first:pt-0">
+                  <dt className="text-muted-foreground">{r.label}</dt>
+                  <dd className="tabular-nums">{r.price}</dd>
+                </div>
+              ))}
+            </dl>
+            <CommissionForm />
+          </section>
+        </main>
+
+        <footer className={cn(column, "flex flex-col gap-1.5 border-t border-border pt-8 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-[max(2rem,env(safe-area-inset-bottom))] text-sm text-muted-foreground")}>
           <p>
-            Every episode takes hours of research and dozens of drawings. Members keep the series going and get a say in
-            where it goes next.
-          </p>
-          <ul className="flex flex-col">
-            {site.patreon.tiers.map((t) => (
-              <li key={t.name} className="grid grid-cols-[5.5rem_1fr] gap-x-4 border-b border-border py-3 first:pt-0">
-                <span className="font-semibold tabular-nums">
-                  {t.price}
-                  <span className="font-normal text-muted-foreground">/mo</span>
-                </span>
-                <span>
-                  <span className="font-semibold">{t.name}.</span>{" "}
-                  <span className="text-muted-foreground">{t.perk}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <div>
-            <a href={site.patreon.href} target="_blank" rel="noopener" className={primaryButton}>
-              Join on Patreon <ArrowUpRightIcon aria-hidden="true" />
+            Enquiries:{" "}
+            <a href={`mailto:${site.email}`} className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary">
+              {site.email}
             </a>
-          </div>
-        </section>
-
-        <section id="commission" aria-labelledby="commission-h" className={section}>
-          <SectionHeading id="commission-h">Commission a video</SectionHeading>
-          <p>
-            Want your own stickman story? A birthday, a company’s history, a lesson for a classroom, a moment from your
-            family’s past. Tell me about it below.
           </p>
-          <dl aria-label="Guide prices" className="flex flex-col">
-            {site.commissions.rates.map((r) => (
-              <div key={r.label} className="flex items-baseline justify-between gap-4 border-b border-border py-2.5 first:pt-0">
-                <dt className="text-muted-foreground">{r.label}</dt>
-                <dd className="tabular-nums">{r.price}</dd>
-              </div>
-            ))}
-          </dl>
-          <CommissionForm />
-        </section>
-      </main>
+          <p>{site.name} · Pompeii, 79&nbsp;AD. Part II coming soon.</p>
+          <p>Everything shown is historically accurate except the main characters.</p>
+        </footer>
+      </div>
 
-      <footer className={cn(column, "flex flex-col gap-1.5 border-t border-border pt-8 pb-[max(2rem,env(safe-area-inset-bottom))] text-sm text-muted-foreground")}>
-        <p>
-          Enquiries:{" "}
-          <a href={`mailto:${site.email}`} className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-primary">
-            {site.email}
-          </a>
-        </p>
-        <p>{site.name} · Pompeii, 79&nbsp;AD. Part II coming soon.</p>
-        <p>Everything shown is historically accurate except the main characters.</p>
-      </footer>
+      <MobileNav />
     </>
   )
 }
