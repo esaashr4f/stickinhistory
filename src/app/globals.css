@@ -134,15 +134,50 @@ html.lenis body {
   to { visibility: visible; }
 }
 
-/* Mascot sweeping. Only for people who haven't asked for less motion. */
+/* Hero mascot runs in from the left (5 strides, 1.8s), stops, and looks at you.
+   Only for people who haven't asked for less motion; otherwise he just stands. */
 @media (prefers-reduced-motion: no-preference) {
-  .mascot-broom {
-    transform-box: view-box;
-    transform-origin: 62px 64px;
-    animation: sweep 2.6s ease-in-out infinite;
+  .mascot-run {
+    animation: run-in 1.8s cubic-bezier(0.25, 0.6, 0.35, 1) both;
   }
-  @keyframes sweep {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(-12deg); }
+  .mascot-run :is(.mascot-body, .mascot-leg-l, .mascot-leg-r, .mascot-arm-l, .mascot-arm-r, .mascot-eyes) {
+    transform-box: view-box;
+  }
+  .mascot-run .mascot-body {
+    transform-origin: 50px 112px;
+    animation:
+      lean 1.8s ease-out both,
+      bob 0.18s ease-in-out 10 alternate;
+  }
+  .mascot-run .mascot-leg-l { transform-origin: 45px 86px; animation: stride 0.36s linear 5; }
+  .mascot-run .mascot-leg-r { transform-origin: 55px 86px; animation: stride 0.36s linear 5 reverse; }
+  .mascot-run .mascot-arm-l { transform-origin: 44px 55px; animation: swing 0.36s linear 5 reverse; }
+  .mascot-run .mascot-arm-r { transform-origin: 56px 55px; animation: swing 0.36s linear 5; }
+  .mascot-run .mascot-eyes { animation: look 2.3s ease-out both; }
+
+  @keyframes run-in {
+    from { translate: calc(-50vw - 100%) 0; }
+    to { translate: 0 0; }
+  }
+  @keyframes lean {
+    0%, 70% { rotate: 8deg; }
+    100% { rotate: 0deg; }
+  }
+  @keyframes bob {
+    to { translate: 0 -3px; }
+  }
+  @keyframes stride {
+    0%, 100% { rotate: 0deg; }
+    25% { rotate: 32deg; }
+    75% { rotate: -32deg; }
+  }
+  @keyframes swing {
+    0%, 100% { rotate: 0deg; }
+    25% { rotate: 40deg; }
+    75% { rotate: -40deg; }
+  }
+  @keyframes look {
+    0%, 80% { translate: 3px 0; }
+    100% { translate: 0 0; }
   }
 }

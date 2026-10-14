@@ -24,7 +24,7 @@ export default function Home() {
           <ThemeToggle />
         </div>
         <div className={cn(column, "flex flex-col items-center gap-4 pt-16 pb-14 text-center sm:pt-20 sm:pb-20")}>
-          <Mascot className="w-24" sweeping />
+          <Mascot className="w-24" running />
           <span className="font-mono text-xs tracking-[0.14em] text-muted-foreground uppercase">{site.tagline}</span>
           <SplitText
             text={site.name}
