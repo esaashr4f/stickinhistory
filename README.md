@@ -45,6 +45,18 @@ commission requests are printed in the terminal instead of emailed.
   the hover fill on "Watch Act I". Add more with `npx shadcn add @fancy/<name>`; files marked
   "Local change" were tweaked for reduced motion and Next.js.
 
+## Installed for later (not used on the page yet)
+
+Unused packages aren't sent to visitors, so these cost nothing until a component imports them.
+
+- `@react-three/fiber` (React Three Fiber) and `@shadergradient/react`: 3D scenes and animated gradients.
+- `@paper-design/shaders-react`: lightweight WebGL shaders, including `LiquidMetal` (the Liquid Logo effect)
+  and `MeshGradient`.
+- `liquid-glass-js`: glass refraction effect (`<liquid-glass>` element).
+- `awesome-design-md` (dev tool): `npx awesome-design-md` copies a ready-made DESIGN.md into the project.
+
+three.js was upgraded to 0.186 for React Three Fiber; `hero-background.tsx` keeps Vanta's original colours.
+
 ## Deploying to Vercel
 
 1. Import this GitHub repo at [vercel.com/new](https://vercel.com/new). The defaults are right.

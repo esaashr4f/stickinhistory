@@ -61,6 +61,11 @@ export function HeroBackground() {
         import("vanta/dist/vanta.fog.min"),
       ])
       if (cancelled || !el) return
+      // three.js r152+ converts colours to linear space, which makes Vanta (written
+      // for older three) render much darker. Turn that off just while Vanta sets up
+      // its colours, so the fog matches the original look.
+      const colorManagement = THREE.ColorManagement.enabled
+      THREE.ColorManagement.enabled = false
       effect = FOG({
         el,
         THREE,
@@ -77,6 +82,7 @@ export function HeroBackground() {
         speed: 0.6,
         zoom: 0.8,
       })
+      THREE.ColorManagement.enabled = colorManagement
       el.dataset.ready = "true"
       sync()
     }
