@@ -3,7 +3,7 @@
 // (see .env.example), so you can change them on Vercel without touching code.
 
 export const site = {
-  name: "You Were There",
+  name: "Stick in History",
   tagline: "History, as it happened to you",
   description:
     "Stickman stories from inside history's worst days. Pompeii, 79 AD is out now. Follow along for each new part.",

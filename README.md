@@ -1,4 +1,4 @@
-# You Were There
+# Stick in History
 
 The link-in-bio site for the stickman history channel: shop, Patreon and commissions on one page.
 
