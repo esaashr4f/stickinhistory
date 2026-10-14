@@ -8,7 +8,7 @@ import { site } from "@/config/site"
 //
 // Environment variables (see .env.example):
 //   RESEND_API_KEY          required to actually send email
-//   COMMISSION_TO_EMAIL     where requests are delivered (the owner's inbox)
+//   COMMISSION_TO_EMAIL     optional; where requests go (defaults to site.email)
 //   COMMISSION_FROM_EMAIL   sender; must be on a domain verified in Resend
 //   TURNSTILE_SECRET_KEY    optional; turns on the Cloudflare Turnstile check
 
@@ -68,15 +68,15 @@ export async function sendCommission(_prev: CommissionState, formData: FormData)
   }
 
   const apiKey = process.env.RESEND_API_KEY
-  const to = process.env.COMMISSION_TO_EMAIL
+  const to = process.env.COMMISSION_TO_EMAIL || site.email
   const from = process.env.COMMISSION_FROM_EMAIL ?? `${site.name} <onboarding@resend.dev>`
-  if (!apiKey || !to) {
+  if (!apiKey) {
     if (process.env.NODE_ENV !== "production") {
       console.info("[commission] Email isn't configured, so here's what would have been sent:\n" + toText(values))
       return { status: "success" }
     }
-    console.error("[commission] RESEND_API_KEY or COMMISSION_TO_EMAIL is missing")
-    return { status: "error", message: "The form isn't connected yet. Message me on Instagram instead.", values }
+    console.error("[commission] RESEND_API_KEY is missing")
+    return { status: "error", message: `The form isn't connected yet. Email ${site.email} instead.`, values }
   }
 
   const { error } = await new Resend(apiKey).emails.send({
@@ -88,7 +88,7 @@ export async function sendCommission(_prev: CommissionState, formData: FormData)
   })
   if (error) {
     console.error("[commission] Resend error", error)
-    return { status: "error", message: "Something went wrong sending that. Try again in a minute.", values }
+    return { status: "error", message: `Something went wrong sending that. Try again, or email ${site.email}.`, values }
   }
 
   return { status: "success" }

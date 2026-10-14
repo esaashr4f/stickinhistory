@@ -8,6 +8,9 @@ export const site = {
   description:
     "Stickman stories from inside history's worst days. Pompeii, 79 AD is out now. Follow along for each new part.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  // Shown in the footer for general enquiries. Commission requests are sent here
+  // too, unless COMMISSION_TO_EMAIL is set.
+  email: "info@stickinhistory.com",
 
   socials: [
     { label: "Instagram", href: process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://www.instagram.com/" },
@@ -15,16 +18,11 @@ export const site = {
     { label: "YouTube", href: process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://www.youtube.com/" },
   ],
 
-  // The scrolling strip under the hero.
-  jokes: ["I ain't doing that shit", "Hour 1", "Hour 3", "Hour 6", "Nobody gives a shit", "Grey pumice", "Pompeii, 79 AD"],
-
   latestEpisode: {
     place: "Pompeii",
     year: "79 AD",
     act: "Act I",
-    blurb: "It's the year 79. You're a slave in Pompeii. The mountain has been grumbling for days.",
-    // Gets a highlighter swipe when the card scrolls into view.
-    punchline: "Nobody gives a shit.",
+    blurb: "It's the year 79. You're a slave in Pompeii. The mountain has been grumbling for days. Nobody gives a shit.",
     href: process.env.NEXT_PUBLIC_LATEST_EPISODE_URL ?? "https://www.instagram.com/",
   },
 

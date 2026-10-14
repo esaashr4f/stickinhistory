@@ -20,7 +20,7 @@ commission requests are printed in the terminal instead of emailed.
 
 | What | Where |
 | --- | --- |
-| Name, tagline, social links, latest episode, Patreon tiers, prices, form options | `src/config/site.ts` |
+| Name, tagline, enquiries email, social links, latest episode, Patreon tiers, prices, form options | `src/config/site.ts` |
 | Links per deployment, keys | environment variables (see `.env.example`) |
 | Colours and fonts | `src/app/globals.css`, `src/app/layout.tsx` |
 | The mascot | `src/components/mascot.tsx` |
@@ -33,7 +33,7 @@ commission requests are printed in the terminal instead of emailed.
   an hour. Otherwise the three placeholder products show, all linking to `NEXT_PUBLIC_SHOP_URL`.
 - **Patreon**: a link to `NEXT_PUBLIC_PATREON_URL`.
 - **Commission form** (`src/app/actions.ts`): a server action validates the request and emails it to
-  `COMMISSION_TO_EMAIL` with [Resend](https://resend.com). Spam protection is a hidden honeypot field plus a
+  `site.email` (or `COMMISSION_TO_EMAIL` if set) with [Resend](https://resend.com). Spam protection is a hidden honeypot field plus a
   "filled in too fast" check; add Turnstile keys to also show Cloudflare's checkbox. If the visitor gives an
   email address, hitting Reply in your inbox replies to them.
 - **Hero fog** (`src/components/hero-background.tsx`): Vanta and three.js are only downloaded once the page
@@ -42,8 +42,7 @@ commission requests are printed in the terminal instead of emailed.
 - **Animation**: one scroll-linked moment on the latest-episode card (`src/components/episode-card.tsx`)
   and the headline letters on load (`src/components/split-text.tsx`, adapted from React Bits).
 - **Fancy Components** (`src/components/fancy/`, from [fancycomponents.dev](https://www.fancycomponents.dev)):
-  the inside-jokes marquee under the hero (jokes are in `site.ts`), the highlighter on the episode punchline,
-  and the hover fill on "Watch Act I". Add more with `npx shadcn add @fancy/<name>`; files marked
+  the hover fill on "Watch Act I". Add more with `npx shadcn add @fancy/<name>`; files marked
   "Local change" were tweaked for reduced motion and Next.js.
 
 ## Deploying to Vercel

@@ -7,7 +7,6 @@ import { useGSAP } from "@gsap/react"
 import { ArrowUpRightIcon } from "lucide-react"
 import { site } from "@/config/site"
 import { Mascot } from "@/components/mascot"
-import { TextHighlighter } from "@/components/fancy/text/text-highlighter"
 import UnderlineToBackground from "@/components/fancy/text/underline-to-background"
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -59,17 +58,7 @@ export function EpisodeCard() {
             ))}
           </h2>
           <span data-ep="rule" className="block h-0.5 w-full bg-primary" />
-          <p data-ep="blurb" className="max-w-[44ch] text-muted-foreground">
-            {ep.blurb}{" "}
-            <TextHighlighter
-              className="px-0.5 text-foreground"
-              highlightColor="color-mix(in oklab, var(--primary) 55%, transparent)"
-              useInViewOptions={{ once: true, amount: 1 }}
-              transition={{ type: "spring", duration: 1, delay: 0.5, bounce: 0 }}
-            >
-              {ep.punchline}
-            </TextHighlighter>
-          </p>
+          <p data-ep="blurb" className="max-w-[44ch] text-muted-foreground">{ep.blurb}</p>
           <span className="inline-flex items-center gap-1.5 font-medium text-primary">
             <UnderlineToBackground targetTextColor="var(--primary-foreground)" className="px-0.5">
               Watch Act I
