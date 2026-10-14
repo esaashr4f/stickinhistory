@@ -6,7 +6,7 @@ export const site = {
   name: "Stick in History",
   tagline: "History, as it happened to you",
   description:
-    "Stickman stories from inside history's worst days. Pompeii, 79 AD is out now. Follow along for each new part.",
+    "Stickman stories from inside history’s worst days. Pompeii, 79\u00a0AD is out now. Follow along for each new part.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   // Shown in the footer for general enquiries. Commission requests are sent here
   // too, unless COMMISSION_TO_EMAIL is set.
@@ -20,9 +20,9 @@ export const site = {
 
   latestEpisode: {
     place: "Pompeii",
-    year: "79 AD",
+    year: "79\u00a0AD",
     act: "Act I",
-    blurb: "It's the year 79. You're a slave in Pompeii. The mountain has been grumbling for days. Nobody gives a shit.",
+    blurb: "It’s the year 79. You’re a slave in Pompeii. The mountain has been grumbling for days. Nobody gives a shit.",
     href: process.env.NEXT_PUBLIC_LATEST_EPISODE_URL ?? "https://www.instagram.com/",
   },
 
@@ -30,9 +30,9 @@ export const site = {
     href: process.env.NEXT_PUBLIC_SHOP_URL ?? "https://fourthwall.com/",
     // Shown when the Fourthwall API isn't connected yet, or fails.
     placeholderProducts: [
-      { id: "tee", name: "“I ain't doing that shit” tee", price: "from £22", art: "tee" },
-      { id: "hoodie", name: "Pumice-grey hoodie", price: "from £38", art: "hoodie" },
-      { id: "mug", name: "Notched-handle mug", price: "from £14", art: "mug" },
+      { id: "tee", name: "“I ain’t doing that shit” tee", price: "from £22" },
+      { id: "hoodie", name: "Pumice-grey hoodie", price: "from £38" },
+      { id: "mug", name: "Notched-handle mug", price: "from £14" },
     ],
   },
 
@@ -52,8 +52,6 @@ export const site = {
       { label: "Business use", price: "from £450" },
     ],
     purposes: ["Personal gift", "School or teaching", "Business or brand", "Something else"],
-    lengths: ["Up to 30 seconds", "60–90 seconds", "Longer, let's talk"],
+    lengths: ["Up to 30 seconds", "60–90 seconds", "Longer, let’s talk"],
   },
 } as const
-
-export type PlaceholderArt = (typeof site.shop.placeholderProducts)[number]["art"]

@@ -18,25 +18,31 @@ declare global {
 }
 
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
-const field = "h-11 bg-card text-[15px] md:text-[15px]"
+// 16px text stops iOS zooming into fields on focus.
+const field = "h-11 bg-transparent text-base md:text-base"
+const select = "w-full [&_select]:h-11 [&_select]:text-base"
 
 export function CommissionForm() {
   const [state, action, pending] = useActionState(sendCommission, { status: "idle" } satisfies CommissionState)
   const [formKey, setFormKey] = useState(0)
   const [dismissed, setDismissed] = useState<CommissionState | null>(null)
   const done = useRef<HTMLDivElement>(null)
+  const form = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
     if (state.status === "success") done.current?.focus()
-    if (state.status === "error") window.turnstile?.reset()
+    if (state.status === "error") {
+      window.turnstile?.reset()
+      form.current?.querySelector<HTMLElement>("[aria-invalid=true]")?.focus()
+    }
   }, [state])
 
   if (state.status === "success" && state !== dismissed) {
     return (
-      <div ref={done} tabIndex={-1} role="status" className="flex flex-col gap-3 rounded-md border-l-4 border-primary bg-card p-5 outline-none">
-        <strong className="font-heading text-2xl font-semibold">Request sent.</strong>
+      <div ref={done} tabIndex={-1} role="status" className="flex flex-col gap-3 rounded-xl bg-card p-6 outline-none">
+        <strong className="text-xl font-semibold">Request sent</strong>
         <p className="text-muted-foreground">
-          Thanks. It&apos;s in my inbox now and I&apos;ll reply within a few days with a quote and some questions.
+          Thanks. It’s in my inbox now, and I’ll reply within a few days with a quote and some questions.
         </p>
         <div>
           <Button variant="outline" className="h-10 px-4" onClick={() => {
@@ -54,22 +60,22 @@ export function CommissionForm() {
   const err = (state.status === "error" && state.errors) || {}
 
   return (
-    <form key={formKey} action={action} noValidate className="grid gap-4 sm:grid-cols-2">
+    <form ref={form} key={formKey} action={action} noValidate className="grid gap-4 sm:grid-cols-2">
       <Field label="Your name" name="name" error={err.name}>
         <Input id="f-name" name="name" autoComplete="name" defaultValue={v.name} className={field} />
       </Field>
       <Field label="Email or Instagram" name="contact" error={err.contact}>
-        <Input id="f-contact" name="contact" required placeholder="you@example.com or @handle" defaultValue={v.contact} className={field} aria-invalid={!!err.contact || undefined} aria-describedby={err.contact ? "e-contact" : undefined} />
+        <Input id="f-contact" name="contact" required autoComplete="email" inputMode="email" autoCapitalize="none" spellCheck={false} placeholder="you@example.com or @handle" defaultValue={v.contact} className={field} aria-invalid={!!err.contact || undefined} aria-describedby={err.contact ? "e-contact" : undefined} />
       </Field>
-      <Field label="What it's for" name="purpose" error={err.purpose}>
-        <NativeSelect id="f-purpose" name="purpose" defaultValue={v.purpose ?? site.commissions.purposes[0]} className="w-full [&_select]:h-11 [&_select]:bg-card [&_select]:text-[15px]">
+      <Field label="What it’s for" name="purpose" error={err.purpose}>
+        <NativeSelect id="f-purpose" name="purpose" defaultValue={v.purpose ?? site.commissions.purposes[0]} className={select}>
           {site.commissions.purposes.map((p) => (
             <NativeSelectOption key={p}>{p}</NativeSelectOption>
           ))}
         </NativeSelect>
       </Field>
       <Field label="Length" name="length" error={err.length}>
-        <NativeSelect id="f-length" name="length" defaultValue={v.length ?? site.commissions.lengths[1]} className="w-full [&_select]:h-11 [&_select]:bg-card [&_select]:text-[15px]">
+        <NativeSelect id="f-length" name="length" defaultValue={v.length ?? site.commissions.lengths[1]} className={select}>
           {site.commissions.lengths.map((l) => (
             <NativeSelectOption key={l}>{l}</NativeSelectOption>
           ))}
@@ -82,8 +88,11 @@ export function CommissionForm() {
           required
           rows={5}
           defaultValue={v.story}
-          placeholder={`For example: a year 9 class is studying the Great Fire of London. A 90-second "you're there" episode as a baker's apprentice on Pudding Lane.`}
-          className="min-h-32 bg-card text-[15px] md:text-[15px]"
+          placeholder="For example: a year 9 class is studying the Great Fire of London. A 90-second “you’re there” episode as a baker’s apprentice on Pudding Lane."
+          className="min-h-32 bg-transparent text-base md:text-base"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) e.currentTarget.form?.requestSubmit()
+          }}
           aria-invalid={!!err.story || undefined}
           aria-describedby={err.story ? "e-story" : undefined}
         />
@@ -92,7 +101,7 @@ export function CommissionForm() {
         <Input id="f-deadline" name="deadline" type="date" defaultValue={v.deadline} className={field} />
       </Field>
       <Field label="Budget" name="budget" error={err.budget}>
-        <Input id="f-budget" name="budget" placeholder="e.g. £250" defaultValue={v.budget} className={field} />
+        <Input id="f-budget" name="budget" inputMode="decimal" placeholder="e.g. £250" defaultValue={v.budget} className={field} />
       </Field>
 
       {/* Spam protection: real people never see or fill this field. */}
@@ -118,7 +127,7 @@ export function CommissionForm() {
       )}
 
       <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
-        <Button type="submit" disabled={pending} className="h-11 px-5 text-[15px]">
+        <Button type="submit" disabled={pending} className="h-11 rounded-md px-5 text-base">
           {pending ? "Sending…" : "Send my request"}
         </Button>
         <span role="status" className={cn("text-sm", state.status === "error" ? "text-primary" : "text-muted-foreground")}>
@@ -144,12 +153,12 @@ function Field({
 }) {
   return (
     <div className={cn("flex min-w-0 flex-col gap-1.5", full && "sm:col-span-2")}>
-      <Label htmlFor={`f-${name}`} className="text-[13px] font-semibold">
+      <Label htmlFor={`f-${name}`} className="text-sm font-medium">
         {label}
       </Label>
       {children}
       {error && (
-        <span id={`e-${name}`} className="text-[13px] text-primary">
+        <span id={`e-${name}`} className="text-sm text-primary">
           {error}
         </span>
       )}

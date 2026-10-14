@@ -7,8 +7,8 @@
 
 @theme inline {
   --font-sans: var(--font-work-sans), system-ui, sans-serif;
-  --font-heading: var(--font-bodoni), "Didot", Georgia, serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, Menlo, monospace;
+  --font-heading: var(--font-work-sans), system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

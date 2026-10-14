@@ -40,25 +40,31 @@ export function EpisodeCard() {
   )
 
   return (
-    <section ref={ref} id="latest" aria-labelledby="latest-h" className="dark">
+    <section ref={ref} id="latest" aria-labelledby="latest-h">
       <a
         href={ep.href}
         target="_blank"
         rel="noopener"
-        className="group relative grid overflow-hidden rounded-lg border border-border bg-background text-foreground outline-none transition-colors hover:border-primary focus-visible:ring-3 focus-visible:ring-ring/60 sm:grid-cols-[1fr_auto]"
+        className="group grid overflow-hidden rounded-xl bg-card text-card-foreground outline-none transition-colors hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/60 sm:grid-cols-[1fr_auto]"
       >
         <div className="flex flex-col gap-4 p-6 sm:p-8">
-          <span className="font-mono text-xs tracking-[0.14em] text-primary uppercase">Latest episode</span>
-          <h2 id="latest-h" className="flex flex-wrap items-baseline gap-x-3 font-heading text-4xl leading-none font-extrabold uppercase sm:text-5xl">
+          <span className="text-sm text-muted-foreground">Latest episode</span>
+          {/* Each dot stays with the word before it, so lines only break after a dot. */}
+          <h2 id="latest-h" className="text-[clamp(28px,8vw,40px)] leading-[1.1] font-semibold tracking-[-0.03em] uppercase">
             {words.map((w, i) => (
-              <span key={w} className="flex items-baseline gap-x-3 overflow-hidden py-1">
-                {i > 0 && <span aria-hidden="true" className="text-primary">·</span>}
-                <span data-ep="word" className="inline-block">{w}</span>
+              <span key={w}>
+                <span className="inline-block overflow-hidden align-bottom whitespace-nowrap">
+                  <span data-ep="word" className="inline-block">
+                    {w}
+                    {i < words.length - 1 && <span className="text-primary">{"\u00a0·"}</span>}
+                  </span>
+                </span>
+                {i < words.length - 1 && " "}
               </span>
             ))}
           </h2>
-          <span data-ep="rule" className="block h-0.5 w-full bg-primary" />
-          <p data-ep="blurb" className="max-w-[44ch] text-muted-foreground">{ep.blurb}</p>
+          <span data-ep="rule" className="block h-px w-full bg-primary" />
+          <p data-ep="blurb" className="max-w-[44ch] text-pretty text-muted-foreground">{ep.blurb}</p>
           <span className="inline-flex items-center gap-1.5 font-medium text-primary">
             <UnderlineToBackground targetTextColor="var(--primary-foreground)" className="px-0.5">
               Watch Act I
@@ -66,8 +72,8 @@ export function EpisodeCard() {
             <ArrowUpRightIcon className="size-4" aria-hidden="true" />
           </span>
         </div>
-        <div data-ep="mascot" className="hidden items-end justify-center px-6 pt-6 sm:flex">
-          <Mascot className="w-32" />
+        <div data-ep="mascot" className="hidden items-end justify-center px-8 pt-8 sm:flex">
+          <Mascot className="w-24" />
         </div>
       </a>
     </section>
