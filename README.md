@@ -14,14 +14,14 @@ cp .env.example .env.local   # then fill in what you have
 npm run dev                  # open http://localhost:3000
 ```
 
-Without any keys the site still works: the shop shows placeholder products, and in `npm run dev`
+Without any keys the site still works: the shop shows the products listed in `src/config/site.ts`, and in `npm run dev`
 commission requests are printed in the terminal instead of emailed.
 
 ## Where to change things
 
 | What | Where |
 | --- | --- |
-| Name, tagline, enquiries email, social links, latest episode, Patreon tiers, prices, form options | `src/config/site.ts` |
+| Name, tagline, enquiries email, social links, latest episode, shop products, Patreon tiers, prices, form options | `src/config/site.ts` |
 | Links per deployment, keys | environment variables (see `.env.example`) |
 | Colours and fonts | `src/app/globals.css`, `src/app/layout.tsx` |
 | The mascot | `src/components/mascot.tsx` |
@@ -31,7 +31,8 @@ commission requests are printed in the terminal instead of emailed.
 
 - **Shop** (`src/lib/fourthwall.ts`): if `FOURTHWALL_STOREFRONT_TOKEN` is set, products come from the
   [Fourthwall Storefront API](https://docs.fourthwall.com/storefront/overview) and are refreshed about once
-  an hour. Otherwise the three placeholder products show, all linking to `NEXT_PUBLIC_SHOP_URL`.
+  an hour. Otherwise the products in `site.ts` (photos in `public/products/`) show, linking to
+  `NEXT_PUBLIC_SHOP_URL`.
 - **Patreon**: a link to `NEXT_PUBLIC_PATREON_URL`.
 - **Commission form** (`src/app/actions.ts`): a server action validates the request and emails it to
   `site.email` (or `COMMISSION_TO_EMAIL` if set) with [Resend](https://resend.com). Spam protection is a hidden honeypot field plus a

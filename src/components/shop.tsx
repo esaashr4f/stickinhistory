@@ -5,17 +5,24 @@ import { SectionHeading } from "@/components/section-heading"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-type Item = { id: string; name: string; price: string; href: string; image?: { url: string; alt: string } }
+type Item = {
+  id: string
+  name: string
+  colour?: string
+  price: string
+  href: string
+  image?: { url: string; alt: string }
+}
 
 export async function Shop({ className }: { className?: string }) {
   const live = await getProducts()
   const items: Item[] =
-    live ?? site.shop.placeholderProducts.map((p) => ({ ...p, href: site.shop.href }))
+    live ?? site.shop.products.map((p) => ({ ...p, href: site.shop.href }))
 
   return (
     <section id="shop" aria-labelledby="shop-h" className={className}>
       <SectionHeading id="shop-h">Shop</SectionHeading>
-      <ul className="grid grid-cols-3 gap-x-3 gap-y-5">
+      <ul className={cn("grid gap-x-3 gap-y-5", items.length % 3 === 0 ? "grid-cols-3" : "grid-cols-2")}>
         {items.map((p) => (
           <li key={p.id} className="min-w-0">
             <a
@@ -46,7 +53,11 @@ export async function Shop({ className }: { className?: string }) {
               <span className="text-sm leading-snug font-medium text-pretty group-hover:underline group-hover:underline-offset-4">
                 {p.name}
               </span>
-              {p.price && <span className="-mt-1 text-sm text-muted-foreground tabular-nums">{p.price}</span>}
+              {(p.colour || p.price) && (
+                <span className="-mt-1 text-sm text-muted-foreground tabular-nums">
+                  {[p.colour, p.price].filter(Boolean).join(" · ")}
+                </span>
+              )}
             </a>
           </li>
         ))}
