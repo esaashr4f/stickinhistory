@@ -13,9 +13,9 @@ export const site = {
   email: "info@stickinhistory.com",
 
   socials: [
-    { label: "Instagram", href: process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://www.instagram.com/" },
-    { label: "TikTok", href: process.env.NEXT_PUBLIC_TIKTOK_URL ?? "https://www.tiktok.com/" },
-    { label: "YouTube", href: process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://www.youtube.com/" },
+    { label: "Instagram", href: process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://www.instagram.com/stickinhistory" },
+    { label: "TikTok", href: process.env.NEXT_PUBLIC_TIKTOK_URL ?? "https://www.tiktok.com/@stickinhistory" },
+    { label: "YouTube", href: process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://www.youtube.com/@StickIsInHistory" },
   ],
 
   latestEpisode: {
