@@ -39,7 +39,7 @@ export const site = {
   patreon: {
     href: process.env.NEXT_PUBLIC_PATREON_URL ?? "https://www.patreon.com/",
     tiers: [
-      { price: "£3", name: "Citizen", perk: "Every new part 48 hours early." },
+      { price: "£3", name: "Citizen", perk: "Every new part 24 hours early." },
       { price: "£7", name: "Senator", perk: "Early access, plus a vote on the next disaster or era." },
       { price: "£15", name: "Emperor", perk: "All of the above, and your name painted on a wall in a future episode." },
     ],

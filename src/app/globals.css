@@ -7,7 +7,7 @@
 
 @theme inline {
   --font-sans: var(--font-work-sans), system-ui, sans-serif;
-  --font-heading: var(--font-work-sans), system-ui, sans-serif;
+  --font-heading: var(--font-archivo), system-ui, sans-serif;
   --font-mono: ui-monospace, Menlo, monospace;
 
   --color-background: var(--background);

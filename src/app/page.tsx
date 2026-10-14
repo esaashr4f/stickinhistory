@@ -37,7 +37,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2">
             <SplitText
               text={site.name}
-              className="text-[clamp(36px,10vw,56px)] leading-none font-semibold tracking-[-0.035em] text-balance"
+              className="font-heading text-[clamp(36px,10vw,58px)] leading-none font-extrabold font-stretch-[112%] tracking-[-0.03em] [word-spacing:0.1em] text-balance"
             />
             <p className="text-muted-foreground">{site.tagline}</p>
           </div>

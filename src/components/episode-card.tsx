@@ -50,7 +50,7 @@ export function EpisodeCard() {
         <div className="flex flex-col gap-4 p-6 sm:p-8">
           <span className="text-sm text-muted-foreground">Latest episode</span>
           {/* Each dot stays with the word before it, so lines only break after a dot. */}
-          <h2 id="latest-h" className="text-[clamp(28px,8vw,40px)] leading-[1.1] font-semibold tracking-[-0.03em] uppercase">
+          <h2 id="latest-h" className="font-heading text-[clamp(26px,7.5vw,38px)] leading-[1.1] font-extrabold font-stretch-[112%] tracking-[-0.02em] uppercase">
             {words.map((w, i) => (
               <span key={w}>
                 <span className="inline-block overflow-hidden align-bottom whitespace-nowrap">
