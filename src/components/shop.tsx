@@ -17,7 +17,7 @@ type Item = {
 export async function Shop({ className }: { className?: string }) {
   const live = await getProducts()
   const items: Item[] =
-    live ?? site.shop.products.map((p) => ({ ...p, href: site.shop.href }))
+    live ?? site.shop.products.map((p) => ({ ...p }))
 
   return (
     <section id="shop" aria-labelledby="shop-h" className={className}>

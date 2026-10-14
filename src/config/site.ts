@@ -27,9 +27,8 @@ export const site = {
   },
 
   shop: {
-    href: process.env.NEXT_PUBLIC_SHOP_URL ?? "https://fourthwall.com/",
-    // The shop's products. Once FOURTHWALL_STOREFRONT_TOKEN is set, products come
-    // from Fourthwall instead and this list is only a fallback.
+    href: process.env.NEXT_PUBLIC_SHOP_URL ?? "https://stick-in-history-shop.fourthwall.com/en-gbp",
+    // The shop's products. Each one links to its page in the Fourthwall shop.
     // Photos live in public/products/.
     products: [
       {
@@ -37,6 +36,7 @@ export const site = {
         name: "Mount Vesuvius T-Shirt",
         colour: "Black",
         price: "£25",
+        href: "https://stick-in-history-shop.fourthwall.com/en-gbp/products/mount-vesuvius-t-shirt",
         image: { url: "/products/vesuvius-tee-black.webp", alt: "Black T-shirt: two stickmen in Roman clothes giving the finger in front of an erupting Vesuvius, with the words “I beat Mount Vesuvius, bitch”" },
       },
       {
@@ -44,6 +44,7 @@ export const site = {
         name: "Mount Vesuvius T-Shirt",
         colour: "White",
         price: "£25",
+        href: "https://stick-in-history-shop.fourthwall.com/en-gbp/products/mount-vesuvius-t-shirt-2",
         image: { url: "/products/vesuvius-tee-white.webp", alt: "White T-shirt: two stickmen in Roman clothes giving the finger in front of an erupting Vesuvius, with the words “I beat Mount Vesuvius, bitch”" },
       },
     ],

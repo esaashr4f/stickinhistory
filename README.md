@@ -32,8 +32,8 @@ commission requests are printed in the terminal instead of emailed.
 
 - **Shop** (`src/lib/fourthwall.ts`): if `FOURTHWALL_STOREFRONT_TOKEN` is set, products come from the
   [Fourthwall Storefront API](https://docs.fourthwall.com/storefront/overview) and are refreshed about once
-  an hour. Otherwise the products in `site.ts` (photos in `public/products/`) show, linking to
-  `NEXT_PUBLIC_SHOP_URL`.
+  an hour. Otherwise (the default) the products in `site.ts` show, each linking to its own Fourthwall
+  product page; photos are in `public/products/`.
 - **Patreon**: a link to `NEXT_PUBLIC_PATREON_URL`.
 - **Commission form** (`src/app/actions.ts`): a server action validates the request and emails it to
   `site.email` (or `COMMISSION_TO_EMAIL` if set) with [Resend](https://resend.com). Spam protection is a hidden honeypot field plus a
