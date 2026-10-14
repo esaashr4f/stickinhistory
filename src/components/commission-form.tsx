@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react"
 import Script from "next/script"
+import Link from "next/link"
 import { sendCommission, type CommissionState } from "@/app/actions"
 import { site } from "@/config/site"
 import { Button } from "@/components/ui/button"
@@ -134,6 +135,12 @@ export function CommissionForm() {
           {state.status === "error" ? state.message : "I reply to every request, usually within a few days."}
         </span>
       </div>
+      <p className="-mt-1 text-sm text-muted-foreground sm:col-span-2">
+        I only use these details to reply about your video.{" "}
+        <Link href="/privacy" className="underline decoration-border underline-offset-4 hover:text-foreground">
+          How I handle them
+        </Link>
+      </p>
     </form>
   )
 }

@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import Link from "next/link"
 import { ArrowUpRightIcon } from "lucide-react"
 import { site } from "@/config/site"
 import { Mascot } from "@/components/mascot"
@@ -122,6 +123,11 @@ export default function Home() {
           </p>
           <p>{site.name} · Pompeii, 79&nbsp;AD. Part II coming soon.</p>
           <p>Everything shown is historically accurate except the main characters.</p>
+          <p>
+            <Link href="/privacy" className="underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-primary">
+              Privacy
+            </Link>
+          </p>
         </footer>
       </div>
 

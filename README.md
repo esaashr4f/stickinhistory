@@ -26,6 +26,7 @@ commission requests are printed in the terminal instead of emailed.
 | Colours and fonts | `src/app/globals.css`, `src/app/layout.tsx` |
 | The mascot | `src/components/mascot.tsx` |
 | Page layout and copy | `src/app/page.tsx` |
+| Privacy notice (update the date when you change it) | `src/app/privacy/page.tsx` |
 
 ## How each part works
 
